@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Windows;
+package views;
 
 
 import io.socket.client.IO;
@@ -385,7 +385,7 @@ public class HomeScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-      Profile profilewindow = new Profile(username);
+      YourProfile profilewindow = new YourProfile(username);
       profilewindow.revalidate();
       profilewindow.setVisible(true);
       //s.close();
@@ -423,7 +423,7 @@ public class HomeScreen extends javax.swing.JFrame {
 
     private void viewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewActionPerformed
         String selected = userList.getSelectedItem();
-        ViewProfile vp = new ViewProfile(selected);
+        OtherUserProfile vp = new OtherUserProfile(selected);
         vp.setVisible(true);
     }//GEN-LAST:event_viewActionPerformed
     private void changeData(String animeName){

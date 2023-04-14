@@ -2,23 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Windows;
+package views;
 
-import Controller.UserController;
+import controller.UserController;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Typan
  */
-public class Profile extends javax.swing.JFrame {
+public class YourProfile extends javax.swing.JFrame {
 
     /**
      * Creates new form Profile
      */
     String username;
     
-    public Profile(String u) {
+    public YourProfile(String u) {
         initComponents();
         UserController theController = new UserController();
         this.username = u;
