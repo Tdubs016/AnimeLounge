@@ -20,15 +20,15 @@ public class UserController {
     }
     
     public boolean createUser(User theUser) {
-        String encryptedPassword = theDAO.encryptPass(new String(theUser.getPassword()));
-        theUser.setPassword(encryptedPassword.toCharArray());
-        return theDAO.createUser(theUser);
+        String encryptedPassword = theDAO.encryptPass(new String(theUser.getPassword()));//gets the password from the user and encypts it 
+        theUser.setPassword(encryptedPassword.toCharArray()); //sets the new encryoted password on the database
+        return theDAO.createUser(theUser);//if it works it returns the user and allows for the sign in of that account
     }
     
     public User getUser(User theUser) {
-        String encryptedPassword = theDAO.encryptPass(new String(theUser.getPassword()));
+        String encryptedPassword = theDAO.encryptPass(new String(theUser.getPassword())); //gets the password from the user and encypts it 
         theUser.setPassword(encryptedPassword.toCharArray());
-        return this.theDAO.getUser(theUser);
+        return this.theDAO.getUser(theUser); //returns to see if the encypted password matches the one on the data base
     }
     
     public void setUserCurrent(String username,String currentAnime){

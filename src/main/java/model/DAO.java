@@ -66,6 +66,7 @@ public class DAO {
             }
         }
     public void setUserCurrent(String username, String currentAnime){
+        //sets the users currently watching anime in the database 
         try{
             PreparedStatement theStatement = theConnection.prepareStatement("update User set currentAnime = ? where username = ?");
             theStatement.setString(1, currentAnime);
@@ -77,6 +78,7 @@ public class DAO {
         }    
     }
     public void setUserFavAnime(String username, String anime1, String anime2, String anime3){
+        //sets the users top three anime from the inputs 
         try{
             PreparedStatement theStatement = theConnection.prepareStatement("update User set anime1 = ?, anime2 = ?, anime3 = ? where username = ?");            
             theStatement.setString(1, anime1);
@@ -93,6 +95,7 @@ public class DAO {
     }
     
     public String getuserFavAnime(String username, String anime){
+        //gets the users top three anime from the database
     try{
             if("anime1".equals(anime)){
                 PreparedStatement theStatement = theConnection.prepareStatement("select anime1 from User where username = ?");            
@@ -143,6 +146,7 @@ public class DAO {
     }
     
     public String getUserCurrent(String username){
+        //gets the current anime from the database
         try{
             PreparedStatement theStatement = theConnection.prepareStatement("select currentAnime from User where username = ?");
             
@@ -169,10 +173,10 @@ public class DAO {
             try {
                 //retrieve instance of the encryptor of SHA-256
                 MessageDigest digestor = MessageDigest.getInstance("SHA-256");
-    //retrieve bytes to encrypt
+                //retrieve bytes to encrypt
                 byte[] encodedhash = digestor.digest(password.getBytes(StandardCharsets.UTF_8));
                 StringBuilder encryptionValue = new StringBuilder(2 * encodedhash.length);
-    //perform encryption
+                //perform encryption
                 for (int i = 0; i < encodedhash.length; i++) {
                     String hexVal = Integer.toHexString(0xff & encodedhash[i]);
                     if (hexVal.length() == 1) {
@@ -180,7 +184,7 @@ public class DAO {
                     }
                     encryptionValue.append(hexVal);
                 }
-    //return encrypted value
+                //return encrypted value
                 return encryptionValue.toString();
     } catch (Exception ex) {
                 return ex.getMessage();

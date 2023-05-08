@@ -37,10 +37,10 @@ public class HomeScreen extends javax.swing.JFrame {
     /**
      * Creates new form HomeScreen
      */
-    private Socket s;
+    private Socket s; //creates the soccket for the server connection
     private String username;
-    private static String currentRoom = "main";
-    
+    private static String currentRoom = "main"; 
+    private YourProfile profilewindow;
     
     
     
@@ -48,20 +48,21 @@ public class HomeScreen extends javax.swing.JFrame {
         initComponents();
         this.username = u;
         usernametext.setText(u);
+        profilewindow = new YourProfile(username);
         room1.setText(currentRoom);
         try{
             
-            s= IO.socket("http://localhost:3000");
+            s= IO.socket("http://localhost:3000"); // connects to server on socket 3000
             
-            s.on("connect", new Emitter.Listener(){
+            s.on("connect", new Emitter.Listener(){ 
             @Override
             public void call(Object... arg0){
-                s.emit("createUser", username);
+                s.emit("createUser", username); // creates the user on the server
             }
             
             });
             
-            s.on(Socket.EVENT_CONNECT, new Emitter.Listener(){
+            s.on(Socket.EVENT_CONNECT, new Emitter.Listener(){ // checks to see if the connection to the server is up
             @Override
             public void call(Object... arg0){
                 chatStatus.setText("Online");
@@ -69,7 +70,7 @@ public class HomeScreen extends javax.swing.JFrame {
             }
             
             });
-            s.on(Socket.EVENT_DISCONNECT, new Emitter.Listener(){
+            s.on(Socket.EVENT_DISCONNECT, new Emitter.Listener(){ //checks to see if the connection to the server is down
             @Override
             public void call(Object... arg0){
                 chatStatus.setText("Offline");
@@ -77,7 +78,7 @@ public class HomeScreen extends javax.swing.JFrame {
             }
             
             });
-           s.on("updateChat", new Emitter.Listener(){
+           s.on("updateChat", new Emitter.Listener(){ //upadtes the chat when someone types in it 
             @Override
             public void call(Object... arg0){
                 chatTxt.append(arg0[0].toString() + " : " + arg0[1].toString() + "\n");
@@ -85,7 +86,7 @@ public class HomeScreen extends javax.swing.JFrame {
             }
             
             });
-            s.on("clearUsers", new Emitter.Listener(){
+            s.on("clearUsers", new Emitter.Listener(){ //when someone leaves the server it updates
             @Override
             public void call(Object... arg0){
                 userList.removeAll();
@@ -93,7 +94,7 @@ public class HomeScreen extends javax.swing.JFrame {
             }
             });
             
-            s.on("updateUsers", new Emitter.Listener(){
+            s.on("updateUsers", new Emitter.Listener(){ //adds a user to the list when someone joins the server 
             @Override
             public void call(Object... arg0){
                 userList.add(arg0[0].toString());
@@ -107,7 +108,7 @@ public class HomeScreen extends javax.swing.JFrame {
             });
            
             
-            s.open();
+            s.open(); // keeps the socket open 
             
             
             
@@ -137,31 +138,31 @@ public class HomeScreen extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         room = new javax.swing.JLabel();
-        joinBtn = new javax.swing.JButton();
-        usernametext = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        ProfileBtn = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         room1 = new javax.swing.JLabel();
-        chatStatus = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        chatTxt = new javax.swing.JTextArea();
-        sndTxt = new javax.swing.JTextField();
-        sendbtn = new javax.swing.JButton();
-        userList = new java.awt.List();
         jScrollPane2 = new javax.swing.JScrollPane();
         roomList = new javax.swing.JList<>();
+        joinBtn = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        usernametext = new javax.swing.JLabel();
         animeImg = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        chatStatus = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        chatTxt = new javax.swing.JTextArea();
         rank = new javax.swing.JLabel();
         epCount = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        sndTxt = new javax.swing.JTextField();
+        sendbtn = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         animetxt = new javax.swing.JTextArea();
+        userList = new java.awt.List();
         view = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        profile = new javax.swing.JMenu();
-        chatrooms = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -180,8 +181,65 @@ public class HomeScreen extends javax.swing.JFrame {
         room.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Anime Lounge");
+        setBackground(new java.awt.Color(210, 180, 140));
+        setResizable(false);
 
+        jPanel2.setBackground(new java.awt.Color(1, 68, 33));
+        jPanel2.setPreferredSize(new java.awt.Dimension(100, 49));
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(210, 180, 140));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Anime Lounge");
+
+        ProfileBtn.setBackground(new java.awt.Color(1, 68, 33));
+        ProfileBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        ProfileBtn.setForeground(new java.awt.Color(210, 180, 140));
+        ProfileBtn.setText("Profile");
+        ProfileBtn.setBorder(null);
+        ProfileBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProfileBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(ProfileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 679, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ProfileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel3.setBackground(new java.awt.Color(1, 68, 33));
+
+        room1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        room1.setForeground(new java.awt.Color(210, 180, 140));
+        room1.setText("jLabel1");
+
+        roomList.setBackground(new java.awt.Color(1, 68, 33));
+        roomList.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        roomList.setForeground(new java.awt.Color(255, 255, 255));
+        roomList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "main", "Hunter x Hunter", "One Piece", "Bleach", "Demon Slayer", "My Hero Academia", "Black Clover", "Naruto", "Chainsaw Man", "Mob Psycho 100", "Cowboy Bebop", "Death Note", "Attack on Titan", "Fate/Zero", "Fire Force", "Gurren Lagann", "Jujutsu Kaisen", "One Punch Man", "Tokyo Revengers", "Your Lie in April", "Hell's Paradise", "Monster", "Made in Abyss", "Banana Fish", " " };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(roomList);
+
+        joinBtn.setBackground(new java.awt.Color(1, 68, 33));
         joinBtn.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        joinBtn.setForeground(new java.awt.Color(210, 180, 140));
         joinBtn.setText("Join");
         joinBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,29 +247,81 @@ public class HomeScreen extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(joinBtn))
+                    .addComponent(room1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(room1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(joinBtn)
+                .addContainerGap(85, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(210, 180, 140));
+
         usernametext.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        usernametext.setForeground(new java.awt.Color(1, 68, 33));
         usernametext.setText("jLabel1");
         usernametext.setAlignmentX(0.5F);
 
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        animeImg.setIcon(new javax.swing.ImageIcon("C:\\Users\\Typan\\Downloads\\killuagon.jpg")); // NOI18N
 
-        room1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        room1.setText("jLabel1");
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(1, 68, 33));
+        jLabel2.setText("Ranking:");
 
         chatStatus.setForeground(new java.awt.Color(200, 47, 47));
         chatStatus.setText("Offline");
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(1, 68, 33));
+        jLabel3.setText("Episodes:");
+
         chatTxt.setEditable(false);
+        chatTxt.setBackground(new java.awt.Color(1, 68, 33));
         chatTxt.setColumns(20);
+        chatTxt.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        chatTxt.setForeground(new java.awt.Color(255, 255, 255));
+        chatTxt.setLineWrap(true);
         chatTxt.setRows(5);
+        chatTxt.setText("Welcome to Anime Lounge!!! Here you'll be able to talk with other people online about your favorite anime's and with that, whichever room you are in you will get how many episodes that anime has and you will get it's current ranking compared to other anime. So you can stay in this main lobby and talk or join one of the many rooms on the left bar.\n\n");
+        chatTxt.setWrapStyleWord(true);
         jScrollPane1.setViewportView(chatTxt);
 
+        rank.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        rank.setForeground(new java.awt.Color(1, 68, 33));
+        rank.setText("0");
+
+        epCount.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        epCount.setForeground(new java.awt.Color(1, 68, 33));
+        epCount.setText("0");
+
+        sndTxt.setBackground(new java.awt.Color(92, 64, 51));
+        sndTxt.setForeground(new java.awt.Color(255, 255, 255));
         sndTxt.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 sndTxtKeyPressed(evt);
             }
         });
 
+        sendbtn.setBackground(new java.awt.Color(1, 68, 33));
+        sendbtn.setForeground(new java.awt.Color(210, 180, 140));
         sendbtn.setText("Send");
         sendbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,41 +334,22 @@ public class HomeScreen extends javax.swing.JFrame {
             }
         });
 
-        roomList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "main ", "Hunter x Hunter", "One Piece", "Bleach", "Demon Slayer", "My Hero Academia", "Black Clover", "Naruto", "Chainsaw Man", "Mob Psycho 100", "Cowboy Bebop", "Death Note" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(roomList);
-
-        animeImg.setIcon(new javax.swing.ImageIcon("C:\\Users\\Typan\\Downloads\\killuagon.jpg")); // NOI18N
-
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setText("Username :");
-
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setText("Ranking:");
-
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel3.setText("Episodes:");
-
-        rank.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        rank.setText("0");
-
-        epCount.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        epCount.setText("0");
-
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("Synopsis");
-
+        animetxt.setEditable(false);
+        animetxt.setBackground(new java.awt.Color(1, 68, 33));
         animetxt.setColumns(20);
         animetxt.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        animetxt.setForeground(new java.awt.Color(255, 255, 255));
         animetxt.setLineWrap(true);
         animetxt.setRows(5);
-        animetxt.setText("Welcome to Anime Lounge!!! Here you'll be able to talk with other people online about your favorite anime's and with that, whichever room you are in you will get how many episodes that anime has and you will get it's current ranking compared to other anime. So you can stay in this main lobby and talk or join one of the many rooms on the left side ");
         animetxt.setWrapStyleWord(true);
+        animetxt.setBorder(null);
         jScrollPane4.setViewportView(animetxt);
 
+        userList.setBackground(new java.awt.Color(1, 68, 33));
+        userList.setForeground(new java.awt.Color(255, 255, 255));
+
+        view.setBackground(new java.awt.Color(1, 68, 33));
+        view.setForeground(new java.awt.Color(210, 180, 140));
         view.setText("View");
         view.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,148 +357,121 @@ public class HomeScreen extends javax.swing.JFrame {
             }
         });
 
-        profile.setText("Profile");
-        profile.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                profileMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(profile);
-
-        chatrooms.setText("ChatRooms");
-        jMenuBar1.add(chatrooms);
-
-        setJMenuBar(jMenuBar1);
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(animeImg)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rank)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(epCount)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(usernametext)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chatStatus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(userList, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(view))
+                        .addGap(805, 805, 805))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sndTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(sendbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(816, 816, 816))))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(usernametext)
+                            .addComponent(chatStatus)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(view)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(animeImg)
+                        .addGap(5, 5, 5)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(rank)
+                            .addComponent(jLabel3)
+                            .addComponent(epCount))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4))
+                    .addComponent(userList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sndTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sendbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(53, 53, 53))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(usernametext))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(joinBtn)))
-                        .addGap(43, 43, 43)
-                        .addComponent(animeImg)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rank))
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(epCount))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
-                        .addComponent(sndTxt))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(room1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chatStatus)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(view, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(sendbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(userList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 817, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(room1)
-                    .addComponent(chatStatus)
-                    .addComponent(view))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(userList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sndTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sendbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(29, 29, 29))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernametext)
-                    .addComponent(jLabel1))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(joinBtn)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(rank))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(epCount))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(animeImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(12, 12, 12))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-      YourProfile profilewindow = new YourProfile(username);
-      profilewindow.revalidate();
-      profilewindow.setVisible(true);
-      //s.close();
-      //dispose();
-    }//GEN-LAST:event_profileMouseClicked
-
     private void joinBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBtnActionPerformed
+            
+             if(!currentRoom.equals(roomList.getSelectedValue())&& !roomList.getSelectedValue().equals("null")){
             chatTxt.setText("");
             String selected = roomList.getSelectedValue();
-            changeRoom(selected);
-            rank.setText("none");
-            epCount.setText("none");
+            changeRoom(selected); //changes the users room 
+            rank.setText("0");
+            epCount.setText("0");
             animetxt.setText("Welcome to the main Room");
-            changeData(selected);
-           room1.setText(currentRoom);
+            changeData(selected); //changes the info of the room 
+            room1.setText(currentRoom);
+            }
             
     }//GEN-LAST:event_joinBtnActionPerformed
 
     private void sendbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendbtnActionPerformed
+       if(!"".equals(sndTxt.getText().trim())){
         s.emit("sendMessage", sndTxt.getText().trim() );
         sndTxt.setText("");
         sndTxt.grabFocus();
+       }
         
     }//GEN-LAST:event_sendbtnActionPerformed
 
@@ -426,16 +490,22 @@ public class HomeScreen extends javax.swing.JFrame {
         OtherUserProfile vp = new OtherUserProfile(selected);
         vp.setVisible(true);
     }//GEN-LAST:event_viewActionPerformed
+
+    private void ProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProfileBtnActionPerformed
+
+      profilewindow.revalidate();
+      profilewindow.setVisible(true);
+    }//GEN-LAST:event_ProfileBtnActionPerformed
     private void changeData(String animeName){
         animeName = animeName.replaceAll(" ", "%20");
          HttpClient client = HttpClient.newHttpClient();
-       HttpRequest request = HttpRequest.newBuilder()
-		.uri(URI.create("https://anime-db.p.rapidapi.com/anime?page=1&size=50&search="+animeName)) //Hunter%20x%20%20Hunter
-		.header("X-RapidAPI-Key", "1d4360e526mshec9e8158c94f693p15083ajsnec44673525ec")
-		.header("X-RapidAPI-Host", "anime-db.p.rapidapi.com")
-		.method("GET", HttpRequest.BodyPublishers.noBody())
+       HttpRequest request = HttpRequest.newBuilder() // creates the request for the api
+		.uri(URI.create("https://anime-db.p.rapidapi.com/anime?page=1&size=50&search="+animeName)) //url of the api 
+		.header("X-RapidAPI-Key", "1d4360e526mshec9e8158c94f693p15083ajsnec44673525ec") // key for the api
+		.header("X-RapidAPI-Host", "anime-db.p.rapidapi.com") //host of the api
+		.method("GET", HttpRequest.BodyPublishers.noBody()) // get request of the information 
 		.build();
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString()) // does it asyncronse so it doesn't hinder ther user
                 .thenApply(HttpResponse::body)
                 .thenApply(HomeScreen::parse)//thenAccept(System.out::println)
                 .join();
@@ -447,7 +517,7 @@ public class HomeScreen extends javax.swing.JFrame {
     
     private void changeRoom(String room){
         if(room != currentRoom){
-        s.emit("updateRooms", room);
+        s.emit("updateRooms", room); 
         currentRoom = room;
         
         }                                                                                                      
@@ -456,7 +526,7 @@ public class HomeScreen extends javax.swing.JFrame {
    
     
     
-    public static String parse(String responseBody) {
+    public static String parse(String responseBody) { // a parse made to parse the information needed from the api 
         JSONObject obj = new JSONObject(responseBody); //{....}
         JSONArray data = obj.getJSONArray("data");//[.....]
         for(int i =0; i < data.length(); i++){
@@ -469,7 +539,7 @@ public class HomeScreen extends javax.swing.JFrame {
             
             JSONArray altTitles = data.getJSONObject(i).getJSONArray("alternativeTitles");
             for(int j =0; j < altTitles.length(); j++){
-                String altTitle = altTitles.getString(j);//getJSONObject(j).getString(j+":");
+                String altTitle = altTitles.getString(j);
              
                 if(altTitle == null ? currentRoom == null : altTitle.equals(currentRoom)){
                     try{
@@ -504,25 +574,25 @@ public class HomeScreen extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ProfileBtn;
     private static javax.swing.JLabel animeImg;
     private static javax.swing.JTextArea animetxt;
     private javax.swing.JLabel chatStatus;
     private javax.swing.JTextArea chatTxt;
-    private javax.swing.JMenu chatrooms;
     private static javax.swing.JLabel epCount;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton joinBtn;
-    private javax.swing.JMenu profile;
     private static javax.swing.JLabel rank;
     private javax.swing.JLabel room;
     private javax.swing.JLabel room1;
