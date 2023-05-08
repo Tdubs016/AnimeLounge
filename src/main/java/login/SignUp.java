@@ -5,7 +5,10 @@
 package login;
 
 /**
- *
+ * This is the login window which allows the user to create a account on the database
+ * 
+ * 
+ * 
  * @author Typan
  */
 import controller.UserController;

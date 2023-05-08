@@ -5,7 +5,9 @@
 package model;
 
 /**
- *
+ * This is a part of the model that interacts with the database.
+ * 
+ * 
  * @author Typan
  */
 

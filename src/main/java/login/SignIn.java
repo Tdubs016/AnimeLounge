@@ -11,7 +11,10 @@ import model.User;
 import views.HomeScreen;
 
 /**
- *
+ * This is the sign in window which allows the user to sign in with their account
+ * 
+ * 
+ * 
  * @author Typan
  */
 public class SignIn extends javax.swing.JFrame {

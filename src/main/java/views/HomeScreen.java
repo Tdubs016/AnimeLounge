@@ -29,7 +29,11 @@ import javax.swing.ListModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 /**
- *
+ * This is the main screen for the user to interact with other users. 
+ * 
+ * 
+ * 
+ * 
  * @author Typan
  */
 public class HomeScreen extends javax.swing.JFrame {

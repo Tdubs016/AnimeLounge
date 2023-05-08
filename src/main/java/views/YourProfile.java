@@ -8,7 +8,9 @@ import controller.UserController;
 import javax.swing.JOptionPane;
 
 /**
- *
+ *This window is used to show the user their profile.
+ * 
+ * 
  * @author Typan
  */
 public class YourProfile extends javax.swing.JFrame {

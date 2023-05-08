@@ -8,7 +8,9 @@ import controller.UserController;
 
 
 /**
- *
+ *This window is used to show the user another profile.
+ * 
+ * 
  * @author Typan
  */
 public class OtherUserProfile extends javax.swing.JFrame {

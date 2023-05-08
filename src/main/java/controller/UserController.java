@@ -5,7 +5,9 @@
 package controller;
 
 /**
- *
+ *This is the controller class which is the bridge between the what the user see's and how the database is used whether it a pull or a update
+ * 
+ * 
  * @author Typan
  */
 import model.DAO;

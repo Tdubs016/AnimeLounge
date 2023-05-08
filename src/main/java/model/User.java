@@ -5,7 +5,9 @@
 package model;
 
 /**
- *
+ *This is the username and password information of the model.
+ * 
+ * 
  * @author Typan
  */
 public class User {
