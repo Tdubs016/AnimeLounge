@@ -36,7 +36,7 @@
             <configuration>
                 <archive>
                     <manifest>
-                        <mainClass>com.mycompany.chatroomsv2.ChatRoomsV2</mainClass>
+                        <mainClass>login.SignIn</mainClass>
                     </manifest>
                 </archive>
                 <descriptorRefs>
